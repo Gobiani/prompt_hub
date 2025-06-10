@@ -1,3 +1,4 @@
+// File: pages/index.tsx
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -9,7 +10,6 @@ const Home: NextPage = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const handlePromptCreated = () => {
-    // Trigger a refresh of the prompt list
     setRefreshKey(prevKey => prevKey + 1);
   };
 
@@ -32,7 +32,7 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           <div className={styles.promptsSection}>
-            <PromptList key={refreshKey} />
+            <PromptList key={refreshKey} refreshKey={refreshKey} />
           </div>
           
           <div className={styles.formSection}>

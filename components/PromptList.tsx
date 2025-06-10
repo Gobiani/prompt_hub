@@ -1,3 +1,4 @@
+// File: components/PromptList.tsx
 import React, { useEffect, useState } from 'react';
 import PromptExecutor from './PromptExecutor';
 import styles from '../styles/PromptList.module.css';
@@ -10,14 +11,18 @@ interface Prompt {
   updatedAt: string;
 }
 
-const PromptList: React.FC = () => {
+interface PromptListProps {
+  refreshKey: number;
+}
+
+const PromptList: React.FC<PromptListProps> = ({ refreshKey }) => {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchPrompts();
-  }, []);
+  }, [refreshKey]);
 
   const fetchPrompts = async () => {
     try {
