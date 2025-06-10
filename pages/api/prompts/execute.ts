@@ -1,4 +1,4 @@
-// pages/api/prompts/execute.ts
+// File: pages/api/prompts/execute.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getDataSource } from '../../../db/connection';
 import { Prompt } from '../../../db/entities/Prompt';
@@ -25,6 +25,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: 'Prompt not found' });
     }
 
+    // Check for missing variables
+    const variableNames = prompt.template.match(/{([^{}]+)}/g)?.map(m => m.slice(1, -1)) || [];
+    const missingVars = variableNames.filter(v => !(v in variables));
+    if (missingVars.length) {
+      return res.status(400).json({ 
+        error: 'Missing variables', 
+        details: `Required: ${missingVars.join(', ')}` 
+      });
+    }
+
     // Replace placeholders with variable values
     let filledTemplate = prompt.template;
     for (const [key, value] of Object.entries(variables)) {
@@ -34,18 +44,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Execute the prompt with Gemini API
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-    
-    // Update to use the correct model name
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
     const result = await model.generateContent(filledTemplate);
     const text = result.response.text();
 
     return res.status(200).json({ result: text });
-  }  catch (error) {
-  console.error('Error executing prompt:', error);
-  const message = error instanceof Error ? error.message : 'Unknown error';
-  return res.status(500).json({ error: 'Failed to execute prompt', details: message });
-}
-
+  } catch (error) {
+    console.error('Error executing prompt:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: 'Failed to execute prompt', details: message });
+  }
 }
