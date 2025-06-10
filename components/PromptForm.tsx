@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// File: components/PromptForm.tsx
+import React, { useState, useEffect } from 'react';
 import styles from '../styles/PromptForm.module.css';
 
 interface PromptFormProps {
@@ -11,6 +12,13 @@ const PromptForm: React.FC<PromptFormProps> = ({ onPromptCreated }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
