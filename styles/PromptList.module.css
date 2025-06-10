@@ -1,0 +1,62 @@
+.promptList {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.promptList h2 {
+  margin-top: 0;
+  color: #1f2937;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.promptGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.promptCard {
+  background: #f9fafb;
+  border-radius: 6px;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.promptCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.promptCard h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+.templatePreview {
+  color: #4b5563;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.error {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
